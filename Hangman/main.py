@@ -8,12 +8,13 @@ def create_question():
     word = random.choice(words).upper()
     while '-' in word or ' ' in word:
         word = random.choice(words).upper()
+
     return word
 
 
 def give_hint(word, used_letters):
-    # Randomly select one or two letters from the word as a hint
-    hint_letters = random.sample(set(word), k=2)  # `k=2` gives two hint letters
+    # Convert set(word) to a sorted list to avoid the TypeError
+    hint_letters = random.sample(sorted(set(word)), k=2)  # `k=2` gives two hint letters
     used_letters.update(hint_letters)
     return used_letters
 
@@ -34,7 +35,7 @@ def hangman():
         # Show the player their used letters
         print("\nYou have", lives, "lives left and used these letters: ", ' '.join(sorted(used_letters)))
 
-        # Show the current state of the word (guessed letters or '-' for guessed)
+        # Show the current state of the word (guessed letters or '-' for unguessed)
         box_list = [letter if letter in used_letters else '-' for letter in word]
         print("Current word: ", ' '.join(box_list))
 
